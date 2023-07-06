@@ -35,7 +35,6 @@ def delayTimer(by):
     timer.deinit()
     Timer().init(mode=Timer.ONE_SHOT, period=by, callback=lambda t: timer.init(period=period, mode=Timer.PERIODIC, callback=nextLight))
 
-# create a function to toggle the LED
 def nextLight(timer):
     global state, direction
     if state == 0:
@@ -77,17 +76,17 @@ while True:
         state = 0
         delayTimer(300)
 
-    if state == 1:
-        out1.value(1)
-    else:
-        out1.value(0)
-
     if (state == 1 and in1.value() == 1 \
         or state == 2 and in2.value() == 1 \
         or state == 3 and in3.value() == 1 \
         or state == 4 and in4.value() == 1):
         state = 'win'
         timer.deinit()
+
+    if state == 1:
+        out1.value(1)
+    else:
+        out1.value(0)
 
     if state == 2:
         out2.value(1)
@@ -111,6 +110,7 @@ while True:
         out4.value(0)
         out1.value(0)
         time.sleep(0.1)
+        out1.value(1)
         out2.value(1)
         out3.value(1)
         out4.value(1)
